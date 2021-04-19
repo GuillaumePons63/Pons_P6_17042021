@@ -11,3 +11,18 @@ exports.getAllSauce = (req, res, next) => {
       });
     });
 };
+
+exports.createSauce = (req, res, next) => {
+  const sauce = new Sauce({
+    id: req.body._id,
+    name: req.body.sauce,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: [],
+    usersDisliked: [],
+  });
+  sauce
+    .save()
+    .then(() => res.status(201).json({ message: "Sauce crée !" }))
+    .catch((error) => res.status(400).json({ error }));
+};
