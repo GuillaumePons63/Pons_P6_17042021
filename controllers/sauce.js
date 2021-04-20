@@ -14,13 +14,16 @@ exports.getAllSauce = (req, res, next) => {
 };
 
 exports.createSauce = (req, res, next) => {
+  const sauceObject = JSON.parse(req.body.sauce);
   const sauce = new Sauce({
-    id: req.body._id,
-    name: req.body.sauce,
+    ...sauceObject,
     likes: 0,
     dislikes: 0,
     usersLiked: [],
     usersDisliked: [],
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
   });
   sauce
     .save()

@@ -4,10 +4,11 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const sauceRoutes = require("./routes/sauce");
 const userRoutes = require("./routes/user");
+const path = require("path");
 
 mongoose
   .connect(
-    "mongodb+srv://utilisateur1:mJXfnGsqX9K5YaP@sopekocko.mvltx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongodb+srv://captaingoumiz:alphonse@sopekocko.mvltx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
@@ -25,7 +26,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(bodyParser.json());
 
 app.use("/api/sauces", sauceRoutes);
