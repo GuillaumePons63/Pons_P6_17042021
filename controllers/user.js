@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { ObjectId } = require("bson");
 const { ObjectID } = require("bson");
 const jwt = require("jsonwebtoken");
 
@@ -9,6 +10,7 @@ exports.createUser = (req, res, next) => {
     .hash(req.body.password, 10)
     .then((hash) => {
       const user = new User({
+        userId: ObjectId(),
         email: req.body.email,
         password: hash,
       });
