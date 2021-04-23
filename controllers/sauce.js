@@ -54,6 +54,20 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
+  if (req.file != null) {
+    Sauce.findOne({ _id: req.params.id })
+      .then((sauce) => {
+        const filename = sauce.imageUrl.split("/images/")[1];
+        fs.unlink(`images/${filename}`, (err) => {
+          if (err) {
+            console.log("failed to delete local image:" + err);
+          } else {
+            console.log("successfully deleted local image");
+          }
+        });
+      })
+      .catch((error) => res.status(404).json({ error }));
+  }
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
