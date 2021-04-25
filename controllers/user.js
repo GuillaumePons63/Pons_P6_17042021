@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const { ObjectId } = require("bson");
-const { ObjectID } = require("bson");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
