@@ -75,7 +75,6 @@ exports.modifySauce = (req, res, next) => {
         }`,
       }
     : { ...req.body };
-  console.log(sauceObject);
   Sauce.updateOne(
     { _id: req.params.id },
     { ...sauceObject, _id: req.params.id }

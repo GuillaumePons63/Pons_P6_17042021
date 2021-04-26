@@ -1,16 +1,18 @@
 const bcrypt = require("bcrypt");
 const { ObjectId } = require("bson");
 const jwt = require("jsonwebtoken");
+const hmacSHA512 = require("crypto-js/hmac-sha512");
 
 const User = require("../models/user");
 
 exports.createUser = (req, res, next) => {
+  let mail = hmacSHA512(req.body.email, process.env.cryptKey).toString();
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
       const user = new User({
         userId: ObjectId(),
-        email: req.body.email,
+        email: mail,
         password: hash,
       });
       user
@@ -22,7 +24,10 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.connectUser = (req, res, next) => {
-  User.findOne({ email: req.body.email })
+  let mail = hmacSHA512(req.body.email, process.env.cryptKey).toString();
+  User.findOne({
+    email: mail,
+  })
     .then((user) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
