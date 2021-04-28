@@ -111,7 +111,7 @@ exports.ctrlLike = (req, res, next) => {
         Sauce.updateOne(
           { _id: req.params.id },
           {
-            $pull: { usersDisLiked: req.body.userId },
+            $pull: { usersDisliked: req.body.userId },
             $inc: { dislikes: -1 },
           }
         )
