@@ -8,6 +8,7 @@ const path = require("path");
 const morgan = require("morgan");
 const fs = require("fs");
 const cors = require("cors");
+const helmet = require("helmet");
 
 let accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
@@ -37,6 +38,8 @@ mongoose
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 app.use(morgan("combined", { stream: accessLogStream }));
+
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
