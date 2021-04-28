@@ -7,10 +7,22 @@ const userRoutes = require("./routes/user");
 const path = require("path");
 const morgan = require("morgan");
 const fs = require("fs");
+const cors = require("cors");
+
 let accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
 });
 
+const whitelist = ["http://localhost:4200"];
+const corsOption = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
 mongoose
   .connect(
     "mongodb+srv://@sopekocko.mvltx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -38,6 +50,8 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(cors(corsOption));
+
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(bodyParser.json());
 
