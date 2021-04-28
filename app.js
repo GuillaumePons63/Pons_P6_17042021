@@ -5,14 +5,26 @@ const mongoose = require("mongoose");
 const sauceRoutes = require("./routes/sauce");
 const userRoutes = require("./routes/user");
 const path = require("path");
+const morgan = require("morgan");
+const fs = require("fs");
+let accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+  flags: "a",
+});
 
 mongoose
   .connect(
-    "mongodb+srv://captaingoumiz:alphonse@sopekocko.mvltx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    "mongodb+srv://@sopekocko.mvltx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      user: process.env.MONGOUSER,
+      pass: process.env.mongoPassword,
+    }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
+
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

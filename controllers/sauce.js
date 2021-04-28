@@ -2,7 +2,6 @@ const Sauce = require("../models/sauce");
 const fs = require("fs");
 const { ObjectID } = require("bson");
 const jwt = require("jsonwebtoken");
-const sauce = require("../models/sauce");
 
 exports.getAllSauce = (req, res, next) => {
   Sauce.find()
@@ -58,8 +57,8 @@ exports.modifySauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
       .then((sauce) => {
         const filename = sauce.imageUrl.split("/images/")[1];
-        fs.unlink(`images/${filename}`, (err) => {
-          if (err) {
+        fs.unlink(`images/${filename}`, (error) => {
+          if (error) {
             console.log("failed to delete local image:" + err);
           } else {
             console.log("successfully deleted local image");
@@ -112,7 +111,7 @@ exports.ctrlLike = (req, res, next) => {
         Sauce.updateOne(
           { _id: req.params.id },
           {
-            $pull: { usersDisLiked: req.body.userId },
+            $pull: { usersDisliked: req.body.userId },
             $inc: { dislikes: -1 },
           }
         )
