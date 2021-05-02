@@ -1,15 +1,12 @@
 const Sauce = require("../models/sauce");
 
 module.exports = (req, res, next) => {
-  const sauceObject = req.file
-    ? { ...JSON.parse(req.body.sauce) }
-    : { ...req.body };
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      if (sauceObject.userId == sauce.userId) {
+      if (req.body.userIdFromToken === sauce.userId) {
         next();
       } else {
-        res.status(401).json({ error: "Utilisateur non trouvé !" });
+        res.status(401).json({ error: "Utilisateur non autorisé !" });
       }
     })
     .catch((error) => res.status(401).json({ error }));

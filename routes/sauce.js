@@ -8,9 +8,9 @@ const owner = require("../middleware/owner");
 
 router.get("/", auth, sauceCtrl.getAllSauce);
 router.post("/", auth, multer, sauceCtrl.createSauce);
-router.delete("/:id", auth, sauceCtrl.deleteSauce);
+router.delete("/:id", auth, owner, sauceCtrl.deleteSauce);
 router.get("/:id", auth, sauceCtrl.getOneSauce);
-router.put("/:id", auth, multer, owner, sauceCtrl.modifySauce);
+router.put("/:id", auth, owner, multer, sauceCtrl.modifySauce);
 router.post("/:id/like", auth, sauceCtrl.ctrlLike);
 
 module.exports = router;
