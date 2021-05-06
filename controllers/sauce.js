@@ -65,9 +65,11 @@ exports.modifySauce = (req, res, next) => {
   if (req.file) {
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
       const filename = sauce.imageUrl.split("/images/")[1];
-      fs.unlink(`images/${filename}`, (error) =>
-        res.status(400).json({ error })
-      );
+      fs.unlink(`images/${filename}`, (error) => {
+        if (error) {
+          res.status(400).json({ error });
+        }
+      });
     });
   }
   // Création d'une constante qui n'est pas la même selon la présence d'un fichier avec la requête
