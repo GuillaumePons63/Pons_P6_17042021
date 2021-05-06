@@ -1,3 +1,4 @@
+// modèle de données des sauces
 const mongoose = require("mongoose");
 
 const sauceSchema = mongoose.Schema({

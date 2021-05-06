@@ -1,3 +1,4 @@
+// Permet l'identification des requêtes par token d'accées
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
@@ -8,6 +9,7 @@ module.exports = (req, res, next) => {
     if (req.body.userId && req.body.userId !== userId) {
       throw "Invalid user ID";
     } else {
+      // Déclaration de userIdFromToken qui est utilisé dans le middleware owner
       req.body.userIdFromToken = userId;
       next();
     }

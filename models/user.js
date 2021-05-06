@@ -1,3 +1,4 @@
+// Shéma des données pour les utilisateurs, le mail doit être unique dans la base de données
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 

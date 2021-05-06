@@ -1,3 +1,4 @@
+// Middleware qui permet l'enregistrement des images dans le dossier image grâce à multer
 const multer = require("multer");
 
 const MIME_TYPES = {
